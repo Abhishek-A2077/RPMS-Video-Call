@@ -1,0 +1,193 @@
+/* src/App.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #202124;
+  color: white;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* --- Video Area --- */
+.video-area {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #202124;
+}
+
+.remote-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.local-video {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  width: 240px;
+  height: 135px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  background-color: #3c4043;
+  border: 1px solid #5f6368;
+  /* Flips the video so it acts like a mirror */
+  transform: scaleX(-1);
+  transition: bottom 0.3s ease-in-out;
+}
+
+/* --- Join Screen --- */
+.join-btn {
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 24px;
+  border: none;
+  background-color: #8ab4f8;
+  color: #202124;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.join-btn:hover {
+  background-color: #aecbfa;
+}
+
+/* --- Controls Bar --- */
+.controls-bar {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.control-btn {
+  padding: 14px 24px;
+  border-radius: 28px;
+  border: none;
+  cursor: pointer;
+  background-color: #3c4043;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+}
+
+.control-btn:hover {
+  background-color: #434649;
+}
+
+.control-btn:active {
+  transform: scale(0.96);
+}
+
+.control-btn.off {
+  background-color: #ea4335;
+}
+
+.control-btn.off:hover {
+  background-color: #f28b82;
+}
+
+/* --- Chat Panel --- */
+.chat-panel {
+  width: 360px;
+  background-color: #ffffff;
+  color: #202124;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #e0e0e0;
+  transition: width 0.3s ease;
+}
+
+.chat-header {
+  padding: 18px;
+  border-bottom: 1px solid #e0e0e0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  background-color: #f8f9fa;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message-bubble {
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 85%;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.message-bubble.me {
+  align-self: flex-end;
+  background-color: #e8f0fe;
+  color: #1967d2;
+  border-bottom-right-radius: 4px;
+}
+
+.message-bubble.remote {
+  align-self: flex-start;
+  background-color: #f1f3f4;
+  color: #3c4043;
+  border-bottom-left-radius: 4px;
+}
+
+.chat-form {
+  padding: 16px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  gap: 12px;
+  background-color: #fff;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 24px;
+  border: 1px solid #dadce0;
+  outline: none;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.chat-input:focus {
+  border-color: #1a73e8;
+}
+
+.chat-submit {
+  background: none;
+  border: none;
+  color: #1a73e8;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0 8px;
+}
+
+.chat-submit:hover {
+  color: #174ea6;
+}
