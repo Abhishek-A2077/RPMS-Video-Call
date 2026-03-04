@@ -1,4 +1,3 @@
-// server.js
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -10,23 +9,20 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Vite's default port
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
 
-io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+const socketRoomMap = {};
 
-  // When a user joins a room
+io.on("connection", (socket) => {
   socket.on("join-room", (roomId) => {
     socket.join(roomId);
-    console.log(`User ${socket.id} joined room ${roomId}`);
-    // Tell others in the room that someone connected
+    socketRoomMap[socket.id] = roomId;
     socket.to(roomId).emit("user-joined", socket.id);
   });
 
-  // Relay WebRTC signaling messages to the specific room
   socket.on("offer", (data) => {
     socket.to(data.roomId).emit("offer", data.offer);
   });
@@ -39,15 +35,29 @@ io.on("connection", (socket) => {
     socket.to(data.roomId).emit("ice-candidate", data.candidate);
   });
 
-  socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
-  });
-  // Relay chat messages
   socket.on("chat-message", (data) => {
     socket.to(data.roomId).emit("chat-message", data.message);
   });
+
+  socket.on("mute-status", (data) => {
+    socket.to(data.roomId).emit("mute-status", data.isMuted);
+  });
+
+  socket.on("leave-room", (roomId) => {
+    socket.leave(roomId);
+    if (socketRoomMap[socket.id] === roomId) {
+      delete socketRoomMap[socket.id];
+    }
+    socket.to(roomId).emit("user-left", socket.id);
+  });
+
+  socket.on("disconnect", () => {
+    const roomId = socketRoomMap[socket.id];
+    if (roomId) {
+      socket.to(roomId).emit("user-left", socket.id);
+      delete socketRoomMap[socket.id];
+    }
+  });
 });
 
-server.listen(3000, () => {
-  console.log("Signaling server running on http://localhost:3000");
-});
+server.listen(3000, () => {});
